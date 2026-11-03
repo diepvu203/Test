@@ -5,30 +5,37 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Drama Hot Hôm Nay</title>
 <style>
-  :root { --bg:#0f0f13; --card:#1b1b22; --text:#f2f2f5; --muted:#9c9ca8; --accent:#ff3b30; --fb:#1877f2; --tk:#fe2c55; --news:#ff9500; }
+  :root { --bg:#0f0f13; --card:#1b1b22; --text:#f2f2f5; --muted:#9c9ca8; --accent:#ff3b30; --fb:#1877f2; --tk:#fe2c55; }
   * { box-sizing:border-box; margin:0; padding:0; }
   body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif; background:var(--bg); color:var(--text); padding:16px; max-width:720px; margin:0 auto; }
+  a { text-decoration:none; color:inherit; }
   header { text-align:center; padding:12px 0 4px; }
   header h1 { font-size:26px; letter-spacing:.5px; }
   header h1 span { color:var(--accent); }
   header p { color:var(--muted); font-size:14px; margin-top:6px; }
   #updated { color:var(--muted); font-size:12px; text-align:center; margin:8px 0 16px; }
+  #sources { display:flex; gap:10px; margin-bottom:14px; }
+  #sources button { flex:1; border:2px solid #333; background:var(--card); color:var(--text); border-radius:14px; padding:12px 8px; font-size:17px; font-weight:800; cursor:pointer; }
+  #sources button.fb.active { background:var(--fb); border-color:var(--fb); }
+  #sources button.tk.active { background:#000; border-color:var(--tk); }
+  #sources button small { display:block; font-size:12px; font-weight:400; color:var(--muted); margin-top:2px; }
+  #sources button.active small { color:#ddd; }
   #days { display:flex; gap:8px; overflow-x:auto; padding-bottom:8px; margin-bottom:16px; }
   #days button { flex:0 0 auto; border:1px solid #333; background:var(--card); color:var(--text); border-radius:999px; padding:8px 14px; font-size:14px; cursor:pointer; }
   #days button.active { background:var(--accent); border-color:var(--accent); font-weight:700; }
   #days button small { display:block; font-size:11px; color:var(--muted); }
   #days button.active small { color:#ffd9d6; }
   .card { background:var(--card); border-radius:14px; padding:16px; margin-bottom:12px; display:flex; gap:12px; }
+  .card:active { opacity:.85; }
   .rank { font-size:22px; font-weight:800; color:var(--accent); min-width:28px; }
   .card h2 { font-size:17px; line-height:1.35; margin-bottom:6px; }
   .card p { font-size:14px; line-height:1.5; color:#d6d6de; }
   .meta { display:flex; gap:8px; align-items:center; margin-top:10px; flex-wrap:wrap; }
   .badge { font-size:12px; font-weight:700; padding:3px 9px; border-radius:999px; color:#fff; }
   .badge.fb { background:var(--fb); }
-  .badge.tk { background:#000; border:1px solid var(--tk); color:#fff; }
-  .badge.news { background:var(--news); }
+  .badge.tk { background:#000; border:1px solid var(--tk); }
   .heat { font-size:13px; }
-  .meta a { margin-left:auto; color:#4da3ff; text-decoration:none; font-size:14px; font-weight:600; }
+  .goto { margin-left:auto; color:#4da3ff; font-size:14px; font-weight:600; }
   #empty { text-align:center; color:var(--muted); padding:40px 16px; line-height:1.6; font-size:15px; }
   footer { text-align:center; color:var(--muted); font-size:12px; padding:20px 8px 8px; line-height:1.6; }
 </style>
@@ -36,64 +43,87 @@
 <body>
 <header>
   <h1>🔥 <span>DRAMA</span> HOT HÔM NAY</h1>
-  <p>Tin tức drama hot nhất trong ngày — nguồn Facebook &amp; TikTok</p>
+  <p>Tin tức drama hot nhất trong ngày — chỉ lấy từ Facebook &amp; TikTok</p>
 </header>
 <div id="updated"></div>
+<div id="sources">
+  <button class="fb" data-source="Facebook">Facebook<small id="count-fb"></small></button>
+  <button class="tk" data-source="TikTok">TikTok<small id="count-tk"></small></button>
+</div>
 <div id="days"></div>
 <div id="list"></div>
-<footer>Dữ liệu chỉ giữ 7 ngày gần nhất. Ngày cũ hơn sẽ tự động bị xóa khỏi danh sách.</footer>
+<footer>Bấm vào tin là bay thẳng qua bài gốc trên Facebook hoặc TikTok.<br>Dữ liệu chỉ giữ 7 ngày gần nhất.</footer>
 <script>
 const DATA_URL = 'news.json';
 const WEEKDAYS = ['CN','T2','T3','T4','T5','T6','T7'];
-function fmtDate(d){ const dd=String(d.getDate()).padStart(2,'0'); const mm=String(d.getMonth()+1).padStart(2,'0'); return dd+'/'+mm; }
+function fmtDate(d){ return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0'); }
 function isoDate(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
 function last7Days(){
   const days=[]; const now=new Date();
   for(let i=6;i>=0;i--){ const d=new Date(now); d.setDate(now.getDate()-i); days.push({iso:isoDate(d), label:fmtDate(d), wd:WEEKDAYS[d.getDay()], today:i===0}); }
   return days;
 }
-const SOURCE_CLASS = { 'Facebook':'fb', 'TikTok':'tk', 'Báo':'news' };
 let DATA = null;
-let selected = isoDate(new Date());
+let selectedSource = 'Facebook';
+let selectedDay = isoDate(new Date());
+function dayData(iso){ return DATA ? DATA.days.find(x=>x.date===iso) : null; }
+function itemsFor(iso, source){
+  const day = dayData(iso);
+  if(!day) return [];
+  return day.items.filter(it=>it.source===source).sort((a,b)=>b.heat-a.heat);
+}
+function renderSources(){
+  document.querySelectorAll('#sources button').forEach(b=>{
+    b.classList.toggle('active', b.dataset.source===selectedSource);
+  });
+  const fb = itemsFor(selectedDay,'Facebook').length;
+  const tk = itemsFor(selectedDay,'TikTok').length;
+  document.getElementById('count-fb').textContent = fb ? fb+' tin' : 'chưa có tin';
+  document.getElementById('count-tk').textContent = tk ? tk+' tin' : 'chưa có tin';
+}
 function renderDays(){
   const wrap = document.getElementById('days');
   wrap.innerHTML = '';
   last7Days().forEach(d=>{
     const b = document.createElement('button');
-    if(d.iso===selected) b.className='active';
-    const hasData = DATA && DATA.days.some(x=>x.date===d.iso && x.items.length>0);
+    if(d.iso===selectedDay) b.className='active';
+    const hasData = itemsFor(d.iso, selectedSource).length>0;
     b.innerHTML = '<small>'+d.wd+'</small>'+d.label+(hasData?' •':'')+(d.today?' (nay)':'');
-    b.onclick = ()=>{ selected=d.iso; renderDays(); renderList(); };
+    b.onclick = ()=>{ selectedDay=d.iso; renderDays(); renderSources(); renderList(); };
     wrap.appendChild(b);
   });
 }
 function renderList(){
   const list = document.getElementById('list');
-  const day = DATA ? DATA.days.find(x=>x.date===selected) : null;
-  if(!day || !day.items.length){
-    list.innerHTML = '<div id="empty">Ngày này chưa có dữ liệu.<br>Trang mới chạy từ 04/11 nên các ngày trước còn trống — từ mai mỗi ngày sẽ có thêm dữ liệu, tối đa 7 ngày.</div>';
+  const items = itemsFor(selectedDay, selectedSource);
+  if(!items.length){
+    list.innerHTML = '<div id="empty">Mục '+selectedSource+' ngày này chưa có tin.<br>Trang mới chạy từ 04/11 nên các ngày trước còn trống — từ mai mỗi ngày sẽ có thêm dữ liệu, tối đa 7 ngày.</div>';
     return;
   }
-  const items = [...day.items].sort((a,b)=>b.heat-a.heat);
   list.innerHTML = items.map((it,i)=>`
+    <a href="${it.url}" target="_blank" rel="noopener">
     <article class="card">
       <div class="rank">${i+1}</div>
       <div>
         <h2>${it.title}</h2>
         <p>${it.summary}</p>
         <div class="meta">
-          <span class="badge ${SOURCE_CLASS[it.source]||'news'}">${it.source}</span>
+          <span class="badge ${it.source==='Facebook'?'fb':'tk'}">${it.source}</span>
           <span class="heat">${'🔥'.repeat(it.heat)}</span>
           ${it.tag?`<span style="color:var(--muted);font-size:13px;">#${it.tag}</span>`:''}
-          <a href="${it.url}" target="_blank" rel="noopener">Xem nguồn →</a>
+          <span class="goto">Mở trên ${it.source} →</span>
         </div>
       </div>
-    </article>`).join('');
+    </article>
+    </a>`).join('');
 }
+document.querySelectorAll('#sources button').forEach(b=>{
+  b.onclick = ()=>{ selectedSource=b.dataset.source; renderSources(); renderDays(); renderList(); };
+});
 fetch(DATA_URL).then(r=>r.json()).then(j=>{
   DATA = j;
   document.getElementById('updated').textContent = 'Cập nhật: ' + (j.updated_at || '');
-  renderDays(); renderList();
+  renderSources(); renderDays(); renderList();
 }).catch(()=>{
   document.getElementById('list').innerHTML = '<div id="empty">Không tải được dữ liệu. Thử tải lại trang.</div>';
 });
