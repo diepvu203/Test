@@ -5,56 +5,71 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ánh Trăng Tarot — Trải Bài Rider-Waite</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Be+Vietnam+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Be+Vietnam+Pro:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   * { box-sizing:border-box; margin:0; padding:0; }
-  :root { --bg:#0b0714; --gold:#d4af6a; --gold2:#ecd093; --cream:#f5ead2; --muted:#a9adc2; --panel:rgba(255,255,255,.045); --line:rgba(212,175,106,.30); }
-  body { font-family:"Be Vietnam Pro",system-ui,sans-serif; background:var(--bg); color:#f2f2f5; line-height:1.65; min-height:100vh; }
-  body::before { content:""; position:fixed; inset:0; pointer-events:none; background:radial-gradient(900px 480px at 50% -8%, rgba(90,60,160,.45), transparent 60%), radial-gradient(700px 500px at 85% 110%, rgba(212,175,106,.10), transparent 60%); }
+  :root { --bg:#08060f; --gold:#d8b878; --gold2:#f0dcae; --cream:#f5ead2; --muted:#a9adc2; --panel:rgba(255,255,255,.035); --line:rgba(216,184,120,.30); }
+  body { font-family:"Be Vietnam Pro",system-ui,sans-serif; background:var(--bg); color:#f2f2f5; line-height:1.7; min-height:100vh; }
+  body::before { content:""; position:fixed; inset:0; pointer-events:none; background:radial-gradient(900px 500px at 50% -10%, rgba(216,184,120,.12), transparent 60%), radial-gradient(800px 600px at 50% 115%, rgba(70,45,140,.22), transparent 60%); }
   .serif { font-family:"Playfair Display",Georgia,serif; }
-  .wrap { position:relative; max-width:900px; margin:0 auto; padding:0 18px 64px; }
-  header { text-align:center; padding:54px 0 6px; }
-  .moon { font-size:40px; color:var(--gold); line-height:1; }
-  .over { font-size:11px; letter-spacing:5px; color:var(--gold); font-weight:700; margin:14px 0 6px; }
-  header h1 { font-size:clamp(36px,8vw,58px); letter-spacing:3px; line-height:1.1; font-weight:800; }
-  header h1 em { font-style:normal; background:linear-gradient(90deg,#f5ead2,#d4af6a,#9db4ff); -webkit-background-clip:text; background-clip:text; color:transparent; }
-  .rule { width:72px; height:1px; margin:20px auto; background:linear-gradient(90deg,transparent,var(--gold),transparent); }
-  header p { color:var(--muted); font-size:15px; max-width:580px; margin:0 auto; }
-  .stats { display:flex; justify-content:center; gap:26px; margin:22px 0 6px; flex-wrap:wrap; }
+  .wrap { position:relative; max-width:920px; margin:0 auto; padding:0 18px 70px; }
+  header { text-align:center; padding:60px 0 10px; }
+  .glowmoon { width:74px; height:74px; margin:0 auto 8px; border-radius:50%; background:radial-gradient(circle at 38% 35%, #fdf6dd, #e8c476 55%, #8a6a2a 100%); box-shadow:0 0 60px rgba(232,196,118,.55); animation:moonFloat 9s ease-in-out infinite; position:relative; }
+  .glowmoon::after { content:""; position:absolute; inset:14px 22px 22px 14px; border-radius:50%; background:rgba(8,6,15,.28); filter:blur(2px); }
+  @keyframes moonFloat { 0%,100% { transform:translateY(0); box-shadow:0 0 50px rgba(232,196,118,.45); } 50% { transform:translateY(-8px); box-shadow:0 0 80px rgba(232,196,118,.65); } }
+  .over { font-size:11px; letter-spacing:6px; color:var(--gold); font-weight:700; margin:16px 0 8px; }
+  header h1 { font-size:clamp(38px,8vw,60px); letter-spacing:4px; line-height:1.1; font-weight:800; }
+  header h1 em { font-style:normal; background:linear-gradient(100deg,#f5ead2,#d8b878 40%,#f0dcae 55%,#9db4ff 110%); background-size:220% 100%; -webkit-background-clip:text; background-clip:text; color:transparent; animation:shimmer 7s linear infinite; }
+  @keyframes shimmer { to { background-position:220% 0; } }
+  .tagline { font-size:clamp(17px,3.4vw,22px); font-style:italic; color:var(--cream); margin-top:12px; }
+  .moonphase { font-size:12.5px; letter-spacing:2px; color:var(--muted); margin-top:14px; }
+  .orn { display:flex; align-items:center; gap:14px; justify-content:center; margin:24px 0; color:var(--gold); }
+  .orn::before, .orn::after { content:""; height:1px; width:84px; background:linear-gradient(90deg,transparent,var(--gold)); }
+  .orn::after { background:linear-gradient(90deg,var(--gold),transparent); }
+  .stats { display:flex; justify-content:center; gap:34px; margin:8px 0 4px; flex-wrap:wrap; }
   .stats div { text-align:center; }
-  .stats b { display:block; font-size:22px; color:var(--gold2); }
-  .stats span { font-size:11px; letter-spacing:2px; color:var(--muted); }
-  .panel { background:var(--panel); border:1px solid var(--line); border-radius:20px; padding:24px; margin:24px 0; }
-  .step { font-size:11px; letter-spacing:3px; color:var(--gold); font-weight:700; margin-bottom:12px; }
-  .panel h2 { font-size:20px; font-weight:600; margin-bottom:4px; }
-  .panel .hint { color:var(--muted); font-size:13.5px; margin-bottom:14px; }
-  #question { width:100%; background:rgba(0,0,0,.35); border:1px solid rgba(255,255,255,.16); color:#fff; border-radius:12px; padding:14px 16px; font-size:15px; font-family:inherit; outline:none; }
+  .stats b { display:block; font-size:24px; color:var(--gold2); font-weight:600; }
+  .stats span { font-size:10.5px; letter-spacing:2.5px; color:var(--muted); }
+  .panel { background:var(--panel); border:1px solid var(--line); outline:1px solid rgba(216,184,120,.12); outline-offset:5px; border-radius:3px; padding:28px; margin:30px 0; }
+  .step { font-size:11px; letter-spacing:4px; color:var(--gold); font-weight:700; margin-bottom:10px; }
+  .panel h2 { font-size:23px; font-weight:600; }
+  .panel .hint { color:var(--muted); font-size:13.5px; margin:4px 0 16px; }
+  #question { width:100%; background:rgba(0,0,0,.35); border:1px solid rgba(255,255,255,.16); color:#fff; border-radius:3px; padding:15px 17px; font-size:15px; font-family:inherit; outline:none; }
   #question:focus { border-color:var(--gold); }
-  .spreads { display:flex; gap:12px; flex-wrap:wrap; }
-  .spreads button { flex:1; min-width:150px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.14); color:#fff; border-radius:14px; padding:15px 10px; cursor:pointer; font-size:15px; font-weight:700; font-family:inherit; transition:.2s; }
-  .spreads button small { display:block; font-size:12px; font-weight:400; color:var(--muted); margin-top:4px; }
-  .spreads button.active { border-color:var(--gold); background:rgba(212,175,106,.12); box-shadow:0 0 24px rgba(212,175,106,.18); }
-  .shuffle-btn { display:block; width:100%; margin-top:18px; background:linear-gradient(180deg,#f0d69a,#c9a45c); color:#241a05; border:none; font-size:17px; font-weight:800; letter-spacing:1px; padding:17px; border-radius:14px; cursor:pointer; font-family:inherit; box-shadow:0 12px 30px rgba(212,175,106,.30); transition:transform .2s; }
+  .spreads { display:flex; gap:14px; flex-wrap:wrap; }
+  .svc { flex:1; min-width:170px; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.13); border-radius:3px; padding:20px; cursor:pointer; transition:.25s; position:relative; }
+  .svc:hover { border-color:rgba(216,184,120,.55); transform:translateY(-2px); }
+  .svc.active { border-color:var(--gold); background:rgba(216,184,120,.09); box-shadow:0 0 30px rgba(216,184,120,.16); }
+  .svc .n { font-size:26px; color:var(--gold2); }
+  .svc h3 { font-size:16.5px; margin:6px 0 4px; }
+  .svc p { font-size:13px; color:var(--muted); }
+  .svc .tag { position:absolute; top:-11px; right:12px; background:linear-gradient(180deg,#f0d69a,#c9a45c); color:#241a05; font-size:10px; font-weight:800; letter-spacing:1px; padding:3px 10px; border-radius:99px; }
+  .shuffle-btn { display:block; width:100%; margin-top:20px; background:linear-gradient(180deg,#f0d69a,#c9a45c); color:#241a05; border:none; font-size:16px; font-weight:800; letter-spacing:2.5px; padding:18px; border-radius:3px; cursor:pointer; font-family:inherit; box-shadow:0 14px 34px rgba(216,184,120,.28); transition:transform .2s; }
   .shuffle-btn:hover { transform:translateY(-1px); }
   .shuffle-btn:disabled { opacity:.6; cursor:default; transform:none; }
-  .minideck { position:relative; width:96px; height:136px; margin:26px auto 4px; }
-  .minideck i { position:absolute; inset:0; border-radius:10px; background:linear-gradient(160deg,#1b1445,#0e0a2a); border:2px solid rgba(212,175,106,.65); box-shadow:0 10px 24px rgba(0,0,0,.5); }
+  .minideck { position:relative; width:96px; height:136px; margin:28px auto 4px; }
+  .minideck i { position:absolute; inset:0; border-radius:10px; background:linear-gradient(160deg,#14102a,#0a0716); border:2px solid rgba(216,184,120,.7); box-shadow:0 10px 24px rgba(0,0,0,.5); }
   .minideck i:nth-child(1) { transform:rotate(-7deg) translateX(-7px); }
   .minideck i:nth-child(3) { transform:rotate(7deg) translateX(7px); }
   .minideck.shaking { animation:shake .9s ease-in-out; }
   @keyframes shake { 0%,100% { transform:rotate(0); } 20% { transform:rotate(-4deg) translateX(-5px); } 40% { transform:rotate(3deg) translateX(4px); } 60% { transform:rotate(-3deg); } 80% { transform:rotate(2deg); } }
-  #statusLine { text-align:center; color:var(--gold2); font-size:15px; font-style:italic; min-height:24px; margin:10px 0 2px; }
+  #statusLine { text-align:center; color:var(--gold2); font-size:15px; font-style:italic; min-height:24px; margin:12px 0 2px; }
   #qDisplay { text-align:center; color:var(--cream); font-size:15px; font-style:italic; margin:4px 0 12px; }
-  .progress { height:3px; background:rgba(255,255,255,.10); border-radius:99px; overflow:hidden; max-width:420px; margin:12px auto 0; }
-  .progress i { display:block; height:100%; background:linear-gradient(90deg,#d4af6a,#f5ead2); width:0; transition:width .4s; }
-  .table { background:radial-gradient(ellipse at center, #251b47 0%, #150f2a 62%, #0e0919 100%); border:1px solid rgba(212,175,106,.40); border-radius:26px; padding:30px 20px; margin:22px 0; box-shadow:inset 0 0 70px rgba(0,0,0,.65), 0 24px 50px rgba(0,0,0,.5); }
+  .fan { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin:26px 0 8px; }
+  .fan-slot { transform-origin:bottom center; }
+  .fan-card { width:72px; height:121px; border-radius:8px; cursor:pointer; background:linear-gradient(160deg,#14102a,#0a0716); border:1.5px solid rgba(216,184,120,.6); box-shadow:inset 0 0 0 3px #0a0716, inset 0 0 0 4px rgba(216,184,120,.45), 0 10px 22px rgba(0,0,0,.5); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; transition:transform .25s, box-shadow .25s; position:relative; }
+  .fan-card:hover { transform:translateY(-8px); }
+  .fan-card .ring { width:34px; height:34px; border:1px solid rgba(216,184,120,.8); border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--gold); font-size:17px; }
+  .fan-card .txt { font-size:7px; letter-spacing:2.5px; color:var(--cream); }
+  .fan-card.sel { transform:translateY(-16px); border-color:var(--gold2); box-shadow:inset 0 0 0 3px #0a0716, inset 0 0 0 4px rgba(240,220,174,.9), 0 0 26px rgba(216,184,120,.55); }
+  .fan-card .badge { position:absolute; top:-9px; right:-9px; width:22px; height:22px; border-radius:50%; background:linear-gradient(180deg,#f0d69a,#c9a45c); color:#241a05; font-size:12px; font-weight:800; display:none; align-items:center; justify-content:center; }
+  .fan-card.sel .badge { display:flex; }
+  #pickCounter { text-align:center; color:var(--gold2); font-size:14px; letter-spacing:1px; margin:14px 0 4px; }
+  .progress { height:3px; background:rgba(255,255,255,.10); border-radius:99px; overflow:hidden; max-width:420px; margin:14px auto 0; }
+  .progress i { display:block; height:100%; background:linear-gradient(90deg,#d8b878,#f5ead2); width:0; transition:width .4s; }
+  .table { background:radial-gradient(ellipse at center, #221a40 0%, #130e26 62%, #0c0817 100%); border:1px solid rgba(216,184,120,.40); border-radius:8px; padding:32px 20px; margin:24px 0; box-shadow:inset 0 0 80px rgba(0,0,0,.7), 0 24px 50px rgba(0,0,0,.5); }
   .spread { display:flex; gap:18px; flex-wrap:wrap; justify-content:center; }
   .spread.celtic { display:grid; grid-template-columns:1fr 1fr 1fr 118px; grid-template-areas:". five . staff" "four center six staff" ". three . staff"; gap:14px; align-items:center; justify-items:center; }
-  .slot[data-area="center"] { grid-area:center; }
-  .slot[data-area="three"] { grid-area:three; }
-  .slot[data-area="four"] { grid-area:four; }
-  .slot[data-area="five"] { grid-area:five; }
-  .slot[data-area="six"] { grid-area:six; }
   .staff { grid-area:staff; display:flex; flex-direction:column; gap:12px; }
   .staff .slot, .staff .tcard .inner { width:118px; }
   .staff .tcard .inner { height:198px; }
@@ -63,59 +78,64 @@
     .staff { flex-direction:row; flex-wrap:wrap; justify-content:center; }
     .slot.crossed .tcard { transform:none; }
   }
-  .slot { width:150px; text-align:center; animation:dealIn .55s ease both; }
+  .slot { width:150px; text-align:center; animation:dealIn .6s ease both; }
   @keyframes dealIn { from { opacity:0; transform:translateY(-26px) scale(.92); } to { opacity:1; transform:none; } }
   .slot .pos { font-size:11px; letter-spacing:1.5px; color:var(--gold); font-weight:700; min-height:18px; margin-bottom:9px; }
   .slot.crossed .tcard { transform:rotate(90deg); }
   .tcard { perspective:900px; cursor:pointer; }
-  .tcard .inner { position:relative; width:150px; height:252px; transform-style:preserve-3d; transition:transform .7s cubic-bezier(.4,.1,.2,1); }
+  .tcard .inner { position:relative; width:150px; height:252px; transform-style:preserve-3d; transition:transform .8s cubic-bezier(.4,.1,.2,1); }
   .tcard.flipped .inner { transform:rotateY(180deg); }
-  .tcard .face { position:absolute; inset:0; backface-visibility:hidden; border-radius:12px; overflow:hidden; box-shadow:0 16px 32px rgba(0,0,0,.55); }
-  .tcard .back { background:linear-gradient(160deg,#1b1445,#0e0a2a); border:2px solid rgba(212,175,106,.65); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; }
-  .tcard .back .ring { width:76px; height:76px; border:1.5px solid rgba(212,175,106,.75); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:40px; color:var(--gold); }
-  .tcard .back .txt { font-size:10px; letter-spacing:5px; color:var(--cream); }
+  .tcard .face { position:absolute; inset:0; backface-visibility:hidden; border-radius:12px; overflow:hidden; box-shadow:0 18px 34px rgba(0,0,0,.6); }
+  .tcard .back { background:linear-gradient(160deg,#14102a,#0a0716); border:2px solid rgba(216,184,120,.75); box-shadow:inset 0 0 0 4px #0a0716, inset 0 0 0 5px rgba(216,184,120,.55); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; }
+  .tcard .back::before { content:""; position:absolute; inset:14px; border:1px solid rgba(216,184,120,.28); border-radius:8px; background:repeating-linear-gradient(45deg, rgba(216,184,120,.05) 0 2px, transparent 2px 11px); }
+  .tcard .back .ring { width:78px; height:78px; border:1.5px solid rgba(216,184,120,.8); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:38px; color:var(--gold); position:relative; }
+  .tcard .back .ring::after { content:""; position:absolute; inset:7px; border:1px solid rgba(216,184,120,.4); border-radius:50%; }
+  .tcard .back .txt { font-size:9px; letter-spacing:4px; color:var(--cream); position:relative; }
   .tcard .front { transform:rotateY(180deg); background:#111; }
   .tcard .front img { width:100%; height:100%; object-fit:cover; display:block; }
   .tcard .front img.rev { transform:rotate(180deg); }
   .slot .cname { font-size:14px; font-weight:700; margin-top:10px; min-height:22px; }
   .slot .cname small { display:block; font-size:12px; color:var(--muted); font-weight:400; }
   .rev-tag { display:inline-block; font-size:11px; font-weight:700; color:#ff9d9d; border:1px solid rgba(255,157,157,.5); border-radius:999px; padding:1px 9px; margin-top:5px; }
-  .detail { display:none; border-left:3px solid var(--gold); background:rgba(212,175,106,.08); border-radius:0 16px 16px 0; padding:20px; margin:22px 0; }
-  .detail.show { display:flex; gap:18px; animation:dealIn .4s ease both; }
+  .detail { display:none; border-left:3px solid var(--gold); background:rgba(216,184,120,.07); border-radius:0 4px 4px 0; padding:22px; margin:24px 0; }
+  .detail.show { display:flex; gap:20px; animation:dealIn .45s ease both; }
   .detail img { width:112px; height:188px; object-fit:cover; border-radius:8px; flex:0 0 auto; box-shadow:0 10px 24px rgba(0,0,0,.5); }
   .detail img.rev { transform:rotate(180deg); }
-  .detail .pos-tag { font-size:11px; letter-spacing:2px; color:var(--gold); font-weight:700; }
-  .detail h3 { font-size:20px; margin:4px 0 6px; }
+  .detail .pos-tag { font-size:11px; letter-spacing:2.5px; color:var(--gold); font-weight:700; }
+  .detail h3 { font-size:22px; margin:4px 0 6px; }
   .detail h3 small { color:var(--muted); font-weight:400; font-size:14px; }
   .chips { display:flex; gap:7px; flex-wrap:wrap; margin:6px 0 10px; }
-  .chip { border:1px solid rgba(212,175,106,.45); color:var(--gold2); border-radius:999px; padding:2px 11px; font-size:12px; }
+  .chip { border:1px solid rgba(216,184,120,.45); color:var(--gold2); border-radius:999px; padding:2px 11px; font-size:12px; }
   .detail p, .meaning p { font-size:14.5px; color:#dde0ec; }
-  .actions { text-align:center; margin:26px 0; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
-  .btn { background:linear-gradient(180deg,#f0d69a,#c9a45c); color:#241a05; border:none; font-size:16px; font-weight:800; padding:14px 32px; border-radius:999px; cursor:pointer; font-family:inherit; box-shadow:0 8px 24px rgba(212,175,106,.30); }
-  .btn.ghost { background:transparent; border:1.5px solid rgba(212,175,106,.55); color:var(--cream); box-shadow:none; }
-  .meanings h2 { font-size:24px; text-align:center; margin:30px 0 18px; }
-  .meaning { display:flex; gap:18px; background:var(--panel); border:1px solid rgba(255,255,255,.10); border-left:3px solid var(--gold); border-radius:0 16px 16px 0; padding:20px; margin-bottom:14px; }
+  .actions { text-align:center; margin:28px 0; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+  .btn { background:linear-gradient(180deg,#f0d69a,#c9a45c); color:#241a05; border:none; font-size:15px; font-weight:800; letter-spacing:1.5px; padding:15px 34px; border-radius:3px; cursor:pointer; font-family:inherit; box-shadow:0 10px 26px rgba(216,184,120,.30); }
+  .btn.ghost { background:transparent; border:1.5px solid rgba(216,184,120,.55); color:var(--cream); box-shadow:none; }
+  .meanings h2 { font-size:26px; text-align:center; margin:32px 0 6px; }
+  .meanings .sub { text-align:center; color:var(--muted); font-size:13.5px; margin-bottom:20px; }
+  .meaning { display:flex; gap:20px; background:var(--panel); border:1px solid rgba(255,255,255,.10); border-left:3px solid var(--gold); border-radius:0 4px 4px 0; padding:22px; margin-bottom:14px; }
   .meaning img { width:104px; height:175px; object-fit:cover; border-radius:8px; flex:0 0 auto; box-shadow:0 8px 20px rgba(0,0,0,.45); }
   .meaning img.rev { transform:rotate(180deg); }
   .meaning h3 { font-size:17px; }
   .meaning h3 small { color:var(--muted); font-weight:400; }
-  .meaning .pos-tag { font-size:11px; letter-spacing:2px; color:var(--gold); font-weight:700; }
-  footer { text-align:center; color:#7c8299; font-size:12.5px; line-height:1.8; margin-top:36px; }
+  .meaning .pos-tag { font-size:11px; letter-spacing:2.5px; color:var(--gold); font-weight:700; }
+  footer { text-align:center; color:#7c8299; font-size:12.5px; line-height:1.9; margin-top:40px; }
   @media (max-width:520px) {
     .slot, .tcard .inner { width:128px; } .tcard .inner { height:215px; }
     .detail img, .meaning img { width:84px; height:141px; }
-    .detail { flex-direction:row; }
+    .panel { padding:20px; }
   }
+  @media (prefers-reduced-motion: reduce) { * { animation:none !important; transition:none !important; } }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <div class="moon">☾</div>
+    <div class="glowmoon"></div>
     <div class="over">PHÒNG TRẢI BÀI RIDER-WAITE</div>
     <h1 class="serif">ÁNH TRĂNG <em>TAROT</em></h1>
-    <div class="rule"></div>
-    <p>Trải bài ngẫu nhiên từ bộ bài Rider-Waite chuẩn — 78 lá, ảnh gốc Pamela Colman Smith (1909). Tập trung vào câu hỏi của bạn, xáo bài và lật từng lá.</p>
+    <p class="tagline serif">Nơi những lá bài kể câu chuyện của bạn.</p>
+    <div class="moonphase" id="moonPhase"></div>
+    <div class="orn">✦</div>
     <div class="stats">
       <div><b class="serif">78</b><span>LÁ BÀI CHUẨN</span></div>
       <div><b class="serif">03</b><span>KIỂU TRẢI BÀI</span></div>
@@ -124,33 +144,36 @@
   </header>
 
   <div class="panel">
-    <div class="step">BƯỚC I</div>
-    <h2 class="serif">Câu hỏi của bạn</h2>
+    <div class="step">BƯỚC I — ĐẶT CÂU HỎI</div>
+    <h2 class="serif">Bạn muốn hỏi điều gì?</h2>
     <div class="hint">Không bắt buộc — nhưng một câu hỏi rõ ràng sẽ giúp trải bài tập trung hơn.</div>
     <input id="question" type="text" placeholder="Ví dụ: Công việc của tôi trong thời gian tới sẽ ra sao?">
   </div>
 
   <div class="panel">
-    <div class="step">BƯỚC II</div>
+    <div class="step">BƯỚC II — CHỌN TRẢI BÀI</div>
     <h2 class="serif">Chọn kiểu trải bài</h2>
     <div class="hint">Mỗi kiểu trải bài phù hợp với một độ sâu khác nhau của câu hỏi.</div>
     <div class="spreads">
-      <button data-spread="single">1 lá<small>Thông điệp dành cho bạn</small></button>
-      <button data-spread="three" class="active">3 lá<small>Quá khứ • Hiện tại • Tương lai</small></button>
-      <button data-spread="celtic">10 lá<small>Trải bài Celtic Cross</small></button>
+      <div class="svc" data-spread="single"><div class="n serif">I</div><h3>Một lá</h3><p>Thông điệp duy nhất, rõ ràng và trực diện cho câu hỏi của bạn.</p></div>
+      <div class="svc active" data-spread="three"><div class="tag">ĐƯỢC CHỌN NHIỀU NHẤT</div><div class="n serif">III</div><h3>Ba lá</h3><p>Quá khứ • Hiện tại • Tương lai — dòng chảy toàn cảnh của vấn đề.</p></div>
+      <div class="svc" data-spread="celtic"><div class="n serif">X</div><h3>Celtic Cross</h3><p>Mười lá chuyên sâu: hoàn cảnh, trở ngại, tiềm thức và kết quả.</p></div>
     </div>
-    <button class="shuffle-btn" id="shuffleBtn">✦ &nbsp;XÁO BÀI &amp; TRẢI BÀI&nbsp; ✦</button>
+    <button class="shuffle-btn" id="shuffleBtn">✦ &nbsp;XÁO BÀI&nbsp; ✦</button>
   </div>
 
   <div id="deckZone"></div>
   <div id="statusLine"></div>
   <div id="qDisplay"></div>
+  <div id="fanZone"></div>
+  <div id="pickCounter"></div>
   <div class="table" id="tableZone" style="display:none;"><div id="spreadZone"></div><div class="progress"><i id="progressBar"></i></div></div>
   <div id="detailZone"></div>
   <div class="actions" id="actionZone" style="display:none;"></div>
   <div class="meanings" id="meaningsZone"></div>
 
   <footer>
+    <div class="orn">✦</div>
     Ảnh bài: bộ Rider-Waite-Smith, họa sĩ Pamela Colman Smith, xuất bản lần đầu 1909 — đã thuộc phạm vi công cộng, nguồn Wikimedia Commons.<br>
     Nội dung giải nghĩa chỉ mang tính tham khảo và giải trí, không thay thế cho lời khuyên chuyên môn về sức khỏe, pháp lý hay tài chính.
   </footer>
@@ -244,21 +267,35 @@ const SPREADS = {
 
 const $ = id => document.getElementById(id);
 let currentSpread = "three";
+let shuffled = [];
+let fanCards = [];
+let picked = [];
 let drawn = [];
 let flippedCount = 0;
 let meaningsShown = false;
 const CELTIC_AREAS = ["center", "center", "three", "four", "five", "six"];
-document.querySelectorAll(".spreads button").forEach(b => {
-  b.onclick = () => {
-    document.querySelectorAll(".spreads button").forEach(x => x.classList.remove("active"));
-    b.classList.add("active");
-    currentSpread = b.dataset.spread;
+const FAN_COUNT = 15;
+function moonPhase() {
+  const synodic = 29.530588853;
+  const known = Date.UTC(2000, 0, 6, 18, 14) / 86400000;
+  const age = (((Date.now() / 86400000 - known) % synodic) + synodic) % synodic;
+  const names = ["Trăng non", "Trăng lưỡi liềm đầu tháng", "Bán nguyệt đầu tháng", "Trăng khuyết đầu tháng", "Trăng tròn", "Trăng khuyết cuối tháng", "Bán nguyệt cuối tháng", "Trăng lưỡi liềm cuối tháng"];
+  const idx = age < 1.8 ? 0 : age < 5.5 ? 1 : age < 9.4 ? 2 : age < 12.9 ? 3 : age < 16.6 ? 4 : age < 20.1 ? 5 : age < 23.8 ? 6 : age < 27.3 ? 7 : 0;
+  return "ĐÊM NAY · " + names[idx].toUpperCase();
+}
+$("moonPhase").textContent = moonPhase();
+document.querySelectorAll(".svc").forEach(el => {
+  el.onclick = () => {
+    document.querySelectorAll(".svc").forEach(x => x.classList.remove("active"));
+    el.classList.add("active");
+    currentSpread = el.dataset.spread;
     resetReading();
   };
 });
 function resetReading() {
-  drawn = []; flippedCount = 0; meaningsShown = false;
+  shuffled = []; fanCards = []; picked = []; drawn = []; flippedCount = 0; meaningsShown = false;
   $("spreadZone").innerHTML = ""; $("meaningsZone").innerHTML = ""; $("detailZone").innerHTML = "";
+  $("fanZone").innerHTML = ""; $("pickCounter").textContent = "";
   $("tableZone").style.display = "none"; $("actionZone").style.display = "none";
   $("statusLine").textContent = ""; $("qDisplay").textContent = ""; $("deckZone").innerHTML = "";
   $("progressBar").style.width = "0%";
@@ -277,17 +314,55 @@ $("shuffleBtn").onclick = () => {
   $("deckZone").innerHTML = '<div class="minideck shaking"><i></i><i></i><i></i></div>';
   const q = $("question").value.trim();
   setTimeout(() => {
-    const idx = shuffle(DECK.map((_, i) => i));
-    const positions = SPREADS[currentSpread];
-    drawn = idx.slice(0, positions.length).map(i => ({ card: DECK[i], rev: Math.random() < 0.5 }));
+    shuffled = shuffle(DECK.map((_, i) => i));
+    fanCards = shuffled.slice(0, FAN_COUNT);
     $("deckZone").innerHTML = "";
     if (q) $("qDisplay").textContent = "Câu hỏi của bạn: " + q;
-    $("statusLine").textContent = "Bài đã trải xong — chạm vào từng lá để lật và xem giải nghĩa.";
-    $("tableZone").style.display = "block";
-    renderSpread();
-    btn.disabled = false; btn.textContent = "✦  XÁO BÀI & TRẢI BÀI  ✦";
+    renderFan();
+    btn.disabled = false; btn.textContent = "✦  XÁO LẠI BỘ BÀI  ✦";
   }, 950);
 };
+function renderFan() {
+  const need = SPREADS[currentSpread].length;
+  $("statusLine").textContent = "Bộ bài đã xáo xong — hãy chạm vào " + need + " lá bài để chọn cho trải bài của bạn.";
+  $("pickCounter").textContent = "ĐÃ CHỌN 0/" + need + " LÁ";
+  $("fanZone").innerHTML = '<div class="fan">' + fanCards.map((_, fi) => `
+    <div class="fan-slot" style="transform:rotate(${(fi - 7) * 2.4}deg)">
+      <div class="fan-card" data-fi="${fi}">
+        <div class="ring">✦</div><div class="txt">TAROT</div>
+        <div class="badge"></div>
+      </div>
+    </div>`).join("") + "</div>";
+  $("fanZone").querySelectorAll(".fan-card").forEach(fc => {
+    fc.onclick = () => {
+      const fi = +fc.dataset.fi;
+      const ex = picked.findIndex(p => p.fi === fi);
+      if (ex >= 0) {
+        picked.splice(ex, 1);
+      } else {
+        if (picked.length >= need) return;
+        picked.push({ fi: fi, card: DECK[fanCards[fi]], rev: Math.random() < 0.5 });
+      }
+      $("fanZone").querySelectorAll(".fan-card").forEach(el => {
+        const p = picked.findIndex(x => x.fi === +el.dataset.fi);
+        el.classList.toggle("sel", p >= 0);
+        el.querySelector(".badge").textContent = p >= 0 ? (p + 1) : "";
+      });
+      $("pickCounter").textContent = "ĐÃ CHỌN " + picked.length + "/" + need + " LÁ";
+      if (picked.length === need) {
+        $("statusLine").textContent = "Đã chọn đủ bài — đang trải lên bàn...";
+        setTimeout(dealSpread, 500);
+      }
+    };
+  });
+}
+function dealSpread() {
+  drawn = picked.slice();
+  $("fanZone").innerHTML = ""; $("pickCounter").textContent = "";
+  $("statusLine").textContent = "Bài đã trải xong — chạm vào từng lá để lật và xem giải nghĩa.";
+  $("tableZone").style.display = "block";
+  renderSpread();
+}
 function slotHTML(d, i, positions, extra) {
   return `<div class="slot ${extra}" data-pos="${i + 1}" style="animation-delay:${i * 0.12}s">
     <div class="pos">${positions[i].toUpperCase()}</div>
@@ -308,8 +383,7 @@ function renderSpread() {
     let html = "";
     for (let i = 0; i < 6; i++) {
       const area = CELTIC_AREAS[i];
-      const crossed = i === 1 ? "crossed" : "";
-      html += `<div data-area="${area}" style="grid-area:${area};${i === 1 ? "z-index:2;" : ""}">${slotHTML(drawn[i], i, positions, crossed)}</div>`;
+      html += `<div data-area="${area}" style="grid-area:${area};${i === 1 ? "z-index:2;" : ""}">${slotHTML(drawn[i], i, positions, i === 1 ? "crossed" : "")}</div>`;
     }
     html += `<div class="staff">${[6, 7, 8, 9].map(i => slotHTML(drawn[i], i, positions, "")).join("")}</div>`;
     zone.innerHTML = html;
@@ -365,7 +439,7 @@ function showDetail(i) {
 function showMeanings() {
   meaningsShown = true;
   const positions = SPREADS[currentSpread];
-  $("meaningsZone").innerHTML = `<h2 class="serif">✦ Giải nghĩa trải bài ✦</h2>` + drawn.map((d, i) => `
+  $("meaningsZone").innerHTML = `<h2 class="serif">✦ Bản giải nghĩa ✦</h2><div class="sub">Trải bài ${positions.length} lá — ${$("question").value.trim() ? "cho câu hỏi của bạn" : "thông điệp dành cho bạn"}</div>` + drawn.map((d, i) => `
     <div class="meaning" id="meaning-${i}">
       <img src="${d.card[2]}" alt="${d.card[0]}" class="${d.rev ? "rev" : ""}" loading="lazy">
       <div>
