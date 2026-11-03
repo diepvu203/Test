@@ -3,110 +3,150 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tarot Rider-Waite — Trải Bài Ngẫu Nhiên</title>
+<title>Ánh Trăng Tarot — Trải Bài Rider-Waite</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Be+Vietnam+Pro:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   * { box-sizing:border-box; margin:0; padding:0; }
-  :root { --bg:#0d0a1f; --panel:rgba(255,255,255,.06); --gold:#e8c476; --cream:#f5ead2; --muted:#b9bdd0; }
-  body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif; background:radial-gradient(1000px 600px at 50% -10%, #2a1b5e 0%, var(--bg) 55%); color:#f2f2f5; line-height:1.6; min-height:100vh; }
-  .stars { position:fixed; inset:0; pointer-events:none; background-image:radial-gradient(1px 1px at 20% 30%, #fff 50%, transparent 51%), radial-gradient(1px 1px at 70% 20%, #fff 50%, transparent 51%), radial-gradient(1.5px 1.5px at 40% 60%, #ffe9a8 50%, transparent 51%), radial-gradient(1px 1px at 85% 55%, #fff 50%, transparent 51%), radial-gradient(1px 1px at 55% 80%, #fff 50%, transparent 51%), radial-gradient(1.5px 1.5px at 10% 75%, #ffe9a8 50%, transparent 51%); opacity:.5; }
-  .wrap { position:relative; max-width:860px; margin:0 auto; padding:0 16px 60px; }
-  header { text-align:center; padding:40px 0 12px; }
-  header .over { font-size:12px; letter-spacing:4px; color:var(--gold); font-weight:700; }
-  header h1 { font-size:clamp(32px,8vw,52px); letter-spacing:2px; margin:8px 0; background:linear-gradient(90deg,#f5ead2,#e8c476,#9db4ff,#e8c476); background-size:250% 100%; -webkit-background-clip:text; background-clip:text; color:transparent; animation:gradShift 7s linear infinite; }
-  @keyframes gradShift { to { background-position:250% 0; } }
-  header p { color:var(--muted); font-size:15px; max-width:560px; margin:0 auto; }
-  .card-panel { background:var(--panel); border:1px solid rgba(232,196,118,.25); border-radius:18px; padding:22px; margin:22px 0; }
-  .card-panel h2 { font-size:17px; color:var(--gold); margin-bottom:12px; letter-spacing:1px; }
-  #question { width:100%; background:rgba(0,0,0,.35); border:1px solid rgba(255,255,255,.18); color:#fff; border-radius:12px; padding:13px 15px; font-size:15px; outline:none; }
+  :root { --bg:#0b0714; --gold:#d4af6a; --gold2:#ecd093; --cream:#f5ead2; --muted:#a9adc2; --panel:rgba(255,255,255,.045); --line:rgba(212,175,106,.30); }
+  body { font-family:"Be Vietnam Pro",system-ui,sans-serif; background:var(--bg); color:#f2f2f5; line-height:1.65; min-height:100vh; }
+  body::before { content:""; position:fixed; inset:0; pointer-events:none; background:radial-gradient(900px 480px at 50% -8%, rgba(90,60,160,.45), transparent 60%), radial-gradient(700px 500px at 85% 110%, rgba(212,175,106,.10), transparent 60%); }
+  .serif { font-family:"Playfair Display",Georgia,serif; }
+  .wrap { position:relative; max-width:900px; margin:0 auto; padding:0 18px 64px; }
+  header { text-align:center; padding:54px 0 6px; }
+  .moon { font-size:40px; color:var(--gold); line-height:1; }
+  .over { font-size:11px; letter-spacing:5px; color:var(--gold); font-weight:700; margin:14px 0 6px; }
+  header h1 { font-size:clamp(36px,8vw,58px); letter-spacing:3px; line-height:1.1; font-weight:800; }
+  header h1 em { font-style:normal; background:linear-gradient(90deg,#f5ead2,#d4af6a,#9db4ff); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .rule { width:72px; height:1px; margin:20px auto; background:linear-gradient(90deg,transparent,var(--gold),transparent); }
+  header p { color:var(--muted); font-size:15px; max-width:580px; margin:0 auto; }
+  .stats { display:flex; justify-content:center; gap:26px; margin:22px 0 6px; flex-wrap:wrap; }
+  .stats div { text-align:center; }
+  .stats b { display:block; font-size:22px; color:var(--gold2); }
+  .stats span { font-size:11px; letter-spacing:2px; color:var(--muted); }
+  .panel { background:var(--panel); border:1px solid var(--line); border-radius:20px; padding:24px; margin:24px 0; }
+  .step { font-size:11px; letter-spacing:3px; color:var(--gold); font-weight:700; margin-bottom:12px; }
+  .panel h2 { font-size:20px; font-weight:600; margin-bottom:4px; }
+  .panel .hint { color:var(--muted); font-size:13.5px; margin-bottom:14px; }
+  #question { width:100%; background:rgba(0,0,0,.35); border:1px solid rgba(255,255,255,.16); color:#fff; border-radius:12px; padding:14px 16px; font-size:15px; font-family:inherit; outline:none; }
   #question:focus { border-color:var(--gold); }
-  .spreads { display:flex; gap:10px; flex-wrap:wrap; }
-  .spreads button { flex:1; min-width:140px; background:rgba(255,255,255,.05); border:1.5px solid rgba(255,255,255,.16); color:#fff; border-radius:14px; padding:14px 10px; cursor:pointer; font-size:15px; font-weight:700; transition:.2s; }
-  .spreads button small { display:block; font-size:12px; font-weight:400; color:var(--muted); margin-top:3px; }
-  .spreads button.active { border-color:var(--gold); background:rgba(232,196,118,.14); box-shadow:0 0 20px rgba(232,196,118,.2); }
-  .shuffle-btn { display:block; width:100%; margin-top:16px; background:linear-gradient(90deg,#7b2ff7,#2f5bff); border:none; color:#fff; font-size:18px; font-weight:800; letter-spacing:.5px; padding:16px; border-radius:14px; cursor:pointer; box-shadow:0 10px 30px rgba(123,47,247,.4); transition:transform .2s; }
-  .shuffle-btn:hover { transform:scale(1.02); }
-  .shuffle-btn:disabled { opacity:.55; cursor:default; transform:none; }
-  #deckZone { text-align:center; margin:26px 0 6px; min-height:40px; }
-  #deckZone .deck { display:inline-block; font-size:44px; animation:shake 1s ease-in-out; }
-  @keyframes shake { 0%,100% { transform:rotate(0); } 20% { transform:rotate(-8deg) translateX(-6px); } 40% { transform:rotate(7deg) translateX(5px); } 60% { transform:rotate(-5deg); } 80% { transform:rotate(4deg); } }
-  #statusLine { text-align:center; color:var(--gold); font-size:15px; min-height:24px; margin:8px 0 4px; }
-  #qDisplay { text-align:center; color:var(--cream); font-size:16px; font-style:italic; margin:6px 0 14px; }
-  .spread { display:flex; gap:16px; flex-wrap:wrap; justify-content:center; margin:20px 0; }
-  .spread.celtic { display:grid; grid-template-columns:repeat(4, 1fr); grid-template-areas:"s1 s2 s3 staff" "s4 cross s5 staff" "s6 s7 s8 staff"; gap:14px; align-items:start; }
-  .spread.celtic .slot[data-pos="1"] { grid-area:cross; }
-  .spread.celtic .slot[data-pos="2"] { grid-area:cross; transform:rotate(90deg) scale(.92); z-index:2; }
-  .spread.celtic .slot[data-pos="3"] { grid-area:s1; }
-  .spread.celtic .slot[data-pos="4"] { grid-area:s4; }
-  .spread.celtic .slot[data-pos="5"] { grid-area:s2; }
-  .spread.celtic .slot[data-pos="6"] { grid-area:s3; }
-  .spread.celtic .slot[data-pos="7"] { grid-area:s5; }
-  .spread.celtic .slot[data-pos="8"] { grid-area:s6; }
-  .spread.celtic .slot[data-pos="9"] { grid-area:s7; }
-  .spread.celtic .slot[data-pos="10"] { grid-area:s8; }
-  .spread.celtic .slot[data-pos="7"], .spread.celtic .slot[data-pos="8"], .spread.celtic .slot[data-pos="9"], .spread.celtic .slot[data-pos="10"] { grid-column:4; }
-  @media (max-width:640px) { .spread.celtic { display:flex; flex-wrap:wrap; } .spread.celtic .slot[data-pos="2"] { transform:none; } }
-  .slot { width:150px; text-align:center; animation:dealIn .5s ease both; }
-  @keyframes dealIn { from { opacity:0; transform:translateY(-24px) scale(.9); } to { opacity:1; transform:none; } }
-  .slot .pos { font-size:12px; letter-spacing:1px; color:var(--gold); font-weight:700; min-height:18px; margin-bottom:8px; }
+  .spreads { display:flex; gap:12px; flex-wrap:wrap; }
+  .spreads button { flex:1; min-width:150px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.14); color:#fff; border-radius:14px; padding:15px 10px; cursor:pointer; font-size:15px; font-weight:700; font-family:inherit; transition:.2s; }
+  .spreads button small { display:block; font-size:12px; font-weight:400; color:var(--muted); margin-top:4px; }
+  .spreads button.active { border-color:var(--gold); background:rgba(212,175,106,.12); box-shadow:0 0 24px rgba(212,175,106,.18); }
+  .shuffle-btn { display:block; width:100%; margin-top:18px; background:linear-gradient(180deg,#f0d69a,#c9a45c); color:#241a05; border:none; font-size:17px; font-weight:800; letter-spacing:1px; padding:17px; border-radius:14px; cursor:pointer; font-family:inherit; box-shadow:0 12px 30px rgba(212,175,106,.30); transition:transform .2s; }
+  .shuffle-btn:hover { transform:translateY(-1px); }
+  .shuffle-btn:disabled { opacity:.6; cursor:default; transform:none; }
+  .minideck { position:relative; width:96px; height:136px; margin:26px auto 4px; }
+  .minideck i { position:absolute; inset:0; border-radius:10px; background:linear-gradient(160deg,#1b1445,#0e0a2a); border:2px solid rgba(212,175,106,.65); box-shadow:0 10px 24px rgba(0,0,0,.5); }
+  .minideck i:nth-child(1) { transform:rotate(-7deg) translateX(-7px); }
+  .minideck i:nth-child(3) { transform:rotate(7deg) translateX(7px); }
+  .minideck.shaking { animation:shake .9s ease-in-out; }
+  @keyframes shake { 0%,100% { transform:rotate(0); } 20% { transform:rotate(-4deg) translateX(-5px); } 40% { transform:rotate(3deg) translateX(4px); } 60% { transform:rotate(-3deg); } 80% { transform:rotate(2deg); } }
+  #statusLine { text-align:center; color:var(--gold2); font-size:15px; font-style:italic; min-height:24px; margin:10px 0 2px; }
+  #qDisplay { text-align:center; color:var(--cream); font-size:15px; font-style:italic; margin:4px 0 12px; }
+  .progress { height:3px; background:rgba(255,255,255,.10); border-radius:99px; overflow:hidden; max-width:420px; margin:12px auto 0; }
+  .progress i { display:block; height:100%; background:linear-gradient(90deg,#d4af6a,#f5ead2); width:0; transition:width .4s; }
+  .table { background:radial-gradient(ellipse at center, #251b47 0%, #150f2a 62%, #0e0919 100%); border:1px solid rgba(212,175,106,.40); border-radius:26px; padding:30px 20px; margin:22px 0; box-shadow:inset 0 0 70px rgba(0,0,0,.65), 0 24px 50px rgba(0,0,0,.5); }
+  .spread { display:flex; gap:18px; flex-wrap:wrap; justify-content:center; }
+  .spread.celtic { display:grid; grid-template-columns:1fr 1fr 1fr 118px; grid-template-areas:". five . staff" "four center six staff" ". three . staff"; gap:14px; align-items:center; justify-items:center; }
+  .slot[data-area="center"] { grid-area:center; }
+  .slot[data-area="three"] { grid-area:three; }
+  .slot[data-area="four"] { grid-area:four; }
+  .slot[data-area="five"] { grid-area:five; }
+  .slot[data-area="six"] { grid-area:six; }
+  .staff { grid-area:staff; display:flex; flex-direction:column; gap:12px; }
+  .staff .slot, .staff .tcard .inner { width:118px; }
+  .staff .tcard .inner { height:198px; }
+  @media (max-width:680px) {
+    .spread.celtic { display:flex; flex-wrap:wrap; }
+    .staff { flex-direction:row; flex-wrap:wrap; justify-content:center; }
+    .slot.crossed .tcard { transform:none; }
+  }
+  .slot { width:150px; text-align:center; animation:dealIn .55s ease both; }
+  @keyframes dealIn { from { opacity:0; transform:translateY(-26px) scale(.92); } to { opacity:1; transform:none; } }
+  .slot .pos { font-size:11px; letter-spacing:1.5px; color:var(--gold); font-weight:700; min-height:18px; margin-bottom:9px; }
+  .slot.crossed .tcard { transform:rotate(90deg); }
   .tcard { perspective:900px; cursor:pointer; }
   .tcard .inner { position:relative; width:150px; height:252px; transform-style:preserve-3d; transition:transform .7s cubic-bezier(.4,.1,.2,1); }
   .tcard.flipped .inner { transform:rotateY(180deg); }
-  .tcard .face { position:absolute; inset:0; backface-visibility:hidden; border-radius:12px; overflow:hidden; box-shadow:0 14px 30px rgba(0,0,0,.5); }
-  .tcard .back { background:linear-gradient(160deg,#1b1445,#0e0a2a); border:2px solid rgba(232,196,118,.6); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; }
-  .tcard .back .sym { font-size:44px; color:var(--gold); }
-  .tcard .back .txt { font-size:11px; letter-spacing:4px; color:var(--cream); }
-  .tcard .back .ring { width:74px; height:74px; border:1.5px solid rgba(232,196,118,.7); border-radius:50%; display:flex; align-items:center; justify-content:center; }
+  .tcard .face { position:absolute; inset:0; backface-visibility:hidden; border-radius:12px; overflow:hidden; box-shadow:0 16px 32px rgba(0,0,0,.55); }
+  .tcard .back { background:linear-gradient(160deg,#1b1445,#0e0a2a); border:2px solid rgba(212,175,106,.65); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; }
+  .tcard .back .ring { width:76px; height:76px; border:1.5px solid rgba(212,175,106,.75); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:40px; color:var(--gold); }
+  .tcard .back .txt { font-size:10px; letter-spacing:5px; color:var(--cream); }
   .tcard .front { transform:rotateY(180deg); background:#111; }
   .tcard .front img { width:100%; height:100%; object-fit:cover; display:block; }
   .tcard .front img.rev { transform:rotate(180deg); }
-  .slot .cname { font-size:14px; font-weight:700; margin-top:9px; min-height:22px; }
+  .slot .cname { font-size:14px; font-weight:700; margin-top:10px; min-height:22px; }
   .slot .cname small { display:block; font-size:12px; color:var(--muted); font-weight:400; }
-  .slot .rev-tag { display:inline-block; font-size:11px; font-weight:700; color:#ff9d9d; border:1px solid rgba(255,157,157,.5); border-radius:999px; padding:1px 9px; margin-top:4px; }
-  .actions { text-align:center; margin:24px 0; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
-  .btn { background:linear-gradient(90deg,#ff3b30,#ff7a18); color:#fff; border:none; font-size:16px; font-weight:800; padding:14px 30px; border-radius:999px; cursor:pointer; box-shadow:0 8px 24px rgba(255,59,48,.35); }
-  .btn.ghost { background:transparent; border:1.5px solid rgba(255,255,255,.3); box-shadow:none; }
-  .meanings { margin-top:8px; }
-  .meanings h2 { font-size:21px; color:var(--gold); text-align:center; margin:26px 0 16px; }
-  .meaning { display:flex; gap:16px; background:var(--panel); border:1px solid rgba(255,255,255,.1); border-radius:16px; padding:18px; margin-bottom:14px; }
+  .rev-tag { display:inline-block; font-size:11px; font-weight:700; color:#ff9d9d; border:1px solid rgba(255,157,157,.5); border-radius:999px; padding:1px 9px; margin-top:5px; }
+  .detail { display:none; border-left:3px solid var(--gold); background:rgba(212,175,106,.08); border-radius:0 16px 16px 0; padding:20px; margin:22px 0; }
+  .detail.show { display:flex; gap:18px; animation:dealIn .4s ease both; }
+  .detail img { width:112px; height:188px; object-fit:cover; border-radius:8px; flex:0 0 auto; box-shadow:0 10px 24px rgba(0,0,0,.5); }
+  .detail img.rev { transform:rotate(180deg); }
+  .detail .pos-tag { font-size:11px; letter-spacing:2px; color:var(--gold); font-weight:700; }
+  .detail h3 { font-size:20px; margin:4px 0 6px; }
+  .detail h3 small { color:var(--muted); font-weight:400; font-size:14px; }
+  .chips { display:flex; gap:7px; flex-wrap:wrap; margin:6px 0 10px; }
+  .chip { border:1px solid rgba(212,175,106,.45); color:var(--gold2); border-radius:999px; padding:2px 11px; font-size:12px; }
+  .detail p, .meaning p { font-size:14.5px; color:#dde0ec; }
+  .actions { text-align:center; margin:26px 0; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+  .btn { background:linear-gradient(180deg,#f0d69a,#c9a45c); color:#241a05; border:none; font-size:16px; font-weight:800; padding:14px 32px; border-radius:999px; cursor:pointer; font-family:inherit; box-shadow:0 8px 24px rgba(212,175,106,.30); }
+  .btn.ghost { background:transparent; border:1.5px solid rgba(212,175,106,.55); color:var(--cream); box-shadow:none; }
+  .meanings h2 { font-size:24px; text-align:center; margin:30px 0 18px; }
+  .meaning { display:flex; gap:18px; background:var(--panel); border:1px solid rgba(255,255,255,.10); border-left:3px solid var(--gold); border-radius:0 16px 16px 0; padding:20px; margin-bottom:14px; }
   .meaning img { width:104px; height:175px; object-fit:cover; border-radius:8px; flex:0 0 auto; box-shadow:0 8px 20px rgba(0,0,0,.45); }
   .meaning img.rev { transform:rotate(180deg); }
   .meaning h3 { font-size:17px; }
   .meaning h3 small { color:var(--muted); font-weight:400; }
-  .meaning .kw { color:var(--gold); font-size:13px; font-weight:700; margin:4px 0 8px; }
-  .meaning p { font-size:14.5px; color:#dde0ec; }
-  .meaning .pos-tag { font-size:12px; letter-spacing:1px; color:var(--gold); font-weight:700; }
-  footer { text-align:center; color:#7c8299; font-size:12.5px; line-height:1.7; margin-top:34px; }
-  @media (max-width:520px) { .slot, .tcard .inner { width:128px; } .tcard .inner { height:215px; } .meaning img { width:84px; height:141px; } }
+  .meaning .pos-tag { font-size:11px; letter-spacing:2px; color:var(--gold); font-weight:700; }
+  footer { text-align:center; color:#7c8299; font-size:12.5px; line-height:1.8; margin-top:36px; }
+  @media (max-width:520px) {
+    .slot, .tcard .inner { width:128px; } .tcard .inner { height:215px; }
+    .detail img, .meaning img { width:84px; height:141px; }
+    .detail { flex-direction:row; }
+  }
 </style>
 </head>
 <body>
-<div class="stars"></div>
 <div class="wrap">
   <header>
-    <div class="over">✦ RIDER-WAITE-SMITH ✦</div>
-    <h1>TAROT</h1>
+    <div class="moon">☾</div>
+    <div class="over">PHÒNG TRẢI BÀI RIDER-WAITE</div>
+    <h1 class="serif">ÁNH TRĂNG <em>TAROT</em></h1>
+    <div class="rule"></div>
     <p>Trải bài ngẫu nhiên từ bộ bài Rider-Waite chuẩn — 78 lá, ảnh gốc Pamela Colman Smith (1909). Tập trung vào câu hỏi của bạn, xáo bài và lật từng lá.</p>
+    <div class="stats">
+      <div><b class="serif">78</b><span>LÁ BÀI CHUẨN</span></div>
+      <div><b class="serif">03</b><span>KIỂU TRẢI BÀI</span></div>
+      <div><b class="serif">100%</b><span>GIẢI NGHĨA VIỆT</span></div>
+    </div>
   </header>
 
-  <div class="card-panel">
-    <h2>1 &nbsp;•&nbsp; Câu hỏi của bạn (không bắt buộc)</h2>
+  <div class="panel">
+    <div class="step">BƯỚC I</div>
+    <h2 class="serif">Câu hỏi của bạn</h2>
+    <div class="hint">Không bắt buộc — nhưng một câu hỏi rõ ràng sẽ giúp trải bài tập trung hơn.</div>
     <input id="question" type="text" placeholder="Ví dụ: Công việc của tôi trong thời gian tới sẽ ra sao?">
   </div>
 
-  <div class="card-panel">
-    <h2>2 &nbsp;•&nbsp; Chọn kiểu trải bài</h2>
+  <div class="panel">
+    <div class="step">BƯỚC II</div>
+    <h2 class="serif">Chọn kiểu trải bài</h2>
+    <div class="hint">Mỗi kiểu trải bài phù hợp với một độ sâu khác nhau của câu hỏi.</div>
     <div class="spreads">
       <button data-spread="single">1 lá<small>Thông điệp dành cho bạn</small></button>
       <button data-spread="three" class="active">3 lá<small>Quá khứ • Hiện tại • Tương lai</small></button>
       <button data-spread="celtic">10 lá<small>Trải bài Celtic Cross</small></button>
     </div>
-    <button class="shuffle-btn" id="shuffleBtn">✦ XÁO BÀI &amp; TRẢI BÀI ✦</button>
+    <button class="shuffle-btn" id="shuffleBtn">✦ &nbsp;XÁO BÀI &amp; TRẢI BÀI&nbsp; ✦</button>
   </div>
 
   <div id="deckZone"></div>
   <div id="statusLine"></div>
   <div id="qDisplay"></div>
-  <div id="spreadZone"></div>
+  <div class="table" id="tableZone" style="display:none;"><div id="spreadZone"></div><div class="progress"><i id="progressBar"></i></div></div>
+  <div id="detailZone"></div>
   <div class="actions" id="actionZone" style="display:none;"></div>
   <div class="meanings" id="meaningsZone"></div>
 
@@ -201,11 +241,13 @@ const SPREADS = {
   three: ["Quá khứ", "Hiện tại", "Tương lai"],
   celtic: ["Hoàn cảnh hiện tại", "Thử thách / Trở ngại", "Quá khứ xa", "Tương lai gần", "Điều bạn ý thức", "Điều tiềm ẩn bên dưới", "Lời khuyên", "Môi trường xung quanh", "Hy vọng & Nỗi sợ", "Kết quả"]
 };
+
+const $ = id => document.getElementById(id);
 let currentSpread = "three";
 let drawn = [];
 let flippedCount = 0;
 let meaningsShown = false;
-const $ = id => document.getElementById(id);
+const CELTIC_AREAS = ["center", "center", "three", "four", "five", "six"];
 document.querySelectorAll(".spreads button").forEach(b => {
   b.onclick = () => {
     document.querySelectorAll(".spreads button").forEach(x => x.classList.remove("active"));
@@ -216,9 +258,10 @@ document.querySelectorAll(".spreads button").forEach(b => {
 });
 function resetReading() {
   drawn = []; flippedCount = 0; meaningsShown = false;
-  $("spreadZone").innerHTML = ""; $("meaningsZone").innerHTML = "";
-  $("actionZone").style.display = "none"; $("statusLine").textContent = ""; $("qDisplay").textContent = "";
-  $("deckZone").innerHTML = "";
+  $("spreadZone").innerHTML = ""; $("meaningsZone").innerHTML = ""; $("detailZone").innerHTML = "";
+  $("tableZone").style.display = "none"; $("actionZone").style.display = "none";
+  $("statusLine").textContent = ""; $("qDisplay").textContent = ""; $("deckZone").innerHTML = "";
+  $("progressBar").style.width = "0%";
 }
 function shuffle(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -231,7 +274,7 @@ $("shuffleBtn").onclick = () => {
   resetReading();
   const btn = $("shuffleBtn");
   btn.disabled = true; btn.textContent = "ĐANG XÁO BÀI...";
-  $("deckZone").innerHTML = '<div class="deck">🃏</div>';
+  $("deckZone").innerHTML = '<div class="minideck shaking"><i></i><i></i><i></i></div>';
   const q = $("question").value.trim();
   setTimeout(() => {
     const idx = shuffle(DECK.map((_, i) => i));
@@ -239,58 +282,96 @@ $("shuffleBtn").onclick = () => {
     drawn = idx.slice(0, positions.length).map(i => ({ card: DECK[i], rev: Math.random() < 0.5 }));
     $("deckZone").innerHTML = "";
     if (q) $("qDisplay").textContent = "Câu hỏi của bạn: " + q;
-    $("statusLine").textContent = "Bài đã trải xong — bấm vào từng lá để lật.";
+    $("statusLine").textContent = "Bài đã trải xong — chạm vào từng lá để lật và xem giải nghĩa.";
+    $("tableZone").style.display = "block";
     renderSpread();
-    btn.disabled = false; btn.textContent = "✦ XÁO BÀI & TRẢI BÀI ✦";
-  }, 1000);
+    btn.disabled = false; btn.textContent = "✦  XÁO BÀI & TRẢI BÀI  ✦";
+  }, 950);
 };
+function slotHTML(d, i, positions, extra) {
+  return `<div class="slot ${extra}" data-pos="${i + 1}" style="animation-delay:${i * 0.12}s">
+    <div class="pos">${positions[i].toUpperCase()}</div>
+    <div class="tcard" data-i="${i}">
+      <div class="inner">
+        <div class="face back"><div class="ring">✦</div><div class="txt">TAROT</div></div>
+        <div class="face front"><img src="${d.card[2]}" alt="${d.card[0]}" class="${d.rev ? "rev" : ""}" loading="lazy"></div>
+      </div>
+    </div>
+    <div class="cname" id="cname-${i}"></div>
+  </div>`;
+}
 function renderSpread() {
   const positions = SPREADS[currentSpread];
   const zone = $("spreadZone");
-  zone.className = "spread" + (currentSpread === "celtic" ? " celtic" : "");
-  zone.innerHTML = drawn.map((d, i) => `
-    <div class="slot" data-pos="${i + 1}" style="animation-delay:${i * 0.12}s">
-      <div class="pos">${positions[i].toUpperCase()}</div>
-      <div class="tcard" data-i="${i}">
-        <div class="inner">
-          <div class="face back"><div class="ring"><div class="sym">✦</div></div><div class="txt">TAROT</div></div>
-          <div class="face front"><img src="${d.card[2]}" alt="${d.card[0]}" class="${d.rev ? "rev" : ""}" loading="lazy"></div>
-        </div>
-      </div>
-      <div class="cname" id="cname-${i}"></div>
-    </div>`).join("");
+  if (currentSpread === "celtic") {
+    zone.className = "spread celtic";
+    let html = "";
+    for (let i = 0; i < 6; i++) {
+      const area = CELTIC_AREAS[i];
+      const crossed = i === 1 ? "crossed" : "";
+      html += `<div data-area="${area}" style="grid-area:${area};${i === 1 ? "z-index:2;" : ""}">${slotHTML(drawn[i], i, positions, crossed)}</div>`;
+    }
+    html += `<div class="staff">${[6, 7, 8, 9].map(i => slotHTML(drawn[i], i, positions, "")).join("")}</div>`;
+    zone.innerHTML = html;
+  } else {
+    zone.className = "spread";
+    zone.innerHTML = drawn.map((d, i) => slotHTML(d, i, positions, "")).join("");
+  }
   zone.querySelectorAll(".tcard").forEach(tc => {
     tc.onclick = () => {
       const i = +tc.dataset.i;
+      const d = drawn[i];
       if (tc.classList.contains("flipped")) {
-        if (meaningsShown) document.getElementById("meaning-" + i).scrollIntoView({ behavior: "smooth", block: "center" });
+        if (meaningsShown) {
+          const el = document.getElementById("meaning-" + i);
+          if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+        } else {
+          showDetail(i);
+        }
         return;
       }
       tc.classList.add("flipped");
-      const d = drawn[i];
       $("cname-" + i).innerHTML = `${d.card[1]}<small>${d.card[0]}</small>${d.rev ? '<br><span class="rev-tag">LÁ NGƯỢC</span>' : ""}`;
       flippedCount++;
-      $("statusLine").textContent = `Đã lật ${flippedCount}/${drawn.length} lá.`;
+      $("progressBar").style.width = Math.round(flippedCount / drawn.length * 100) + "%";
+      $("statusLine").textContent = `Đã lật ${flippedCount}/${drawn.length} lá — chạm vào lá đã lật để xem giải nghĩa riêng.`;
+      showDetail(i);
       if (flippedCount === drawn.length) {
-        $("statusLine").textContent = "Đã lật hết bài — xem giải nghĩa bên dưới.";
+        $("statusLine").textContent = "Đã lật hết bài — xem toàn bộ giải nghĩa bên dưới.";
         $("actionZone").style.display = "flex";
-        $("actionZone").innerHTML = `<button class="btn" id="viewBtn">XEM GIẢI NGHĨA</button><button class="btn ghost" id="againBtn">TRẢI BÀI MỚI</button>`;
+        $("actionZone").innerHTML = `<button class="btn" id="viewBtn">XEM TOÀN BỘ GIẢI NGHĨA</button><button class="btn ghost" id="againBtn">TRẢI BÀI MỚI</button>`;
         $("viewBtn").onclick = showMeanings;
         $("againBtn").onclick = () => { resetReading(); window.scrollTo({ top: 0, behavior: "smooth" }); };
       }
     };
   });
 }
+function chips(keywords) {
+  return keywords.split(", ").map(k => `<span class="chip">${k}</span>`).join("");
+}
+function showDetail(i) {
+  const d = drawn[i];
+  const positions = SPREADS[currentSpread];
+  $("detailZone").innerHTML = `<div class="detail show">
+    <img src="${d.card[2]}" alt="${d.card[0]}" class="${d.rev ? "rev" : ""}">
+    <div>
+      <div class="pos-tag">${positions[i].toUpperCase()}${d.rev ? " — LÁ NGƯỢC" : ""}</div>
+      <h3 class="serif">${d.card[1]} <small>(${d.card[0]})</small></h3>
+      <div class="chips">${chips(d.card[3])}</div>
+      <p>${d.rev ? d.card[5] : d.card[4]}</p>
+    </div>
+  </div>`;
+}
 function showMeanings() {
   meaningsShown = true;
   const positions = SPREADS[currentSpread];
-  $("meaningsZone").innerHTML = `<h2>✦ Giải nghĩa trải bài ✦</h2>` + drawn.map((d, i) => `
+  $("meaningsZone").innerHTML = `<h2 class="serif">✦ Giải nghĩa trải bài ✦</h2>` + drawn.map((d, i) => `
     <div class="meaning" id="meaning-${i}">
       <img src="${d.card[2]}" alt="${d.card[0]}" class="${d.rev ? "rev" : ""}" loading="lazy">
       <div>
         <div class="pos-tag">${positions[i].toUpperCase()}${d.rev ? " — LÁ NGƯỢC" : ""}</div>
         <h3>${d.card[1]} <small>(${d.card[0]})</small></h3>
-        <div class="kw">${d.card[3]}</div>
+        <div class="chips">${chips(d.card[3])}</div>
         <p>${d.rev ? d.card[5] : d.card[4]}</p>
       </div>
     </div>`).join("");
